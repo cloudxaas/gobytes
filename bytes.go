@@ -8,6 +8,7 @@ func BytesReverse(element []byte) []byte {
 	return element
 }
 
+/* replaced with PutUint64 encoding/binary
 //this is big endian
 func Uint64ToBytes(n uint64) []byte {
 	return []byte{
@@ -21,6 +22,7 @@ func Uint64ToBytes(n uint64) []byte {
 		byte(n),
 	}
 }
+*/
 
 func BytesToUint64(array []byte) uint64 {
 	var data uint64 = 0
