@@ -99,18 +99,13 @@ func Uint32ToBytes(n uint32) []byte {
 }
 
 
-func BytesToUint32(array []byte) uint32 {
-	var data uint32 = 0
-	if len(array) == 0 {
-		return 0
-	}
-	//for i:=0;i< len(array);i++  {
-	for i := 0; i < len(array); i++ {
-		data += uint32(uint(array[i]) << uint(8*(len(array)-i-1)))
-	}
-	return data
+func BytesToUint32(b []byte) uint32 {
+    var data uint32
+    for _, v := range b {
+        data = (data << 8) | uint32(v)
+    }
+    return data
 }
-
 
 
 func BytesToInt32(b []byte) int32 {
