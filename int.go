@@ -173,6 +173,20 @@ func VBytesToUint32(b []byte) uint32 {
 }
 
 
+//bigendian
+func BytesToInt56(element []byte) int64 {
+    var val int64
+    for i := 0; i < 7; i++ {
+        if i < len(element) {
+            val += int64(element[len(element)-1-i]) << uint(8*(7-i))
+        }
+    }
+    if element[0]&0x80 != 0 {
+        val -= 1 << 56
+    }
+    return val
+}
+
 
 
 //bigendian
