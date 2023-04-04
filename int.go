@@ -154,11 +154,11 @@ func Uint32ToVBytes(n uint32) []byte {
 
 //bigendian
 func VBytesToUint32(b []byte) uint32 {
-	var j uint32
-	for i := 0; i < len(b); i++ {
-		j = j + (uint32(b[i]) << ((len(b) - i - 1) * 8))
-	}
-	return j
+    var j uint32
+    for _, v := range b {
+        j = (j << 8) | uint32(v)
+    }
+    return j
 }
 
 
@@ -180,13 +180,12 @@ func BytesToInt56(element []byte) int64 {
 
 //bigendian
 func VBytesToUint64(b []byte) uint64 {
-	var j uint64
-	for i := 0; i < len(b); i++ {
-		j = j + (uint64(b[i]) << ((len(b) - i - 1) * 8))
-	}
-	return j
+    var j uint64
+    for _, v := range b {
+        j = (j << 8) | uint64(v)
+    }
+    return j
 }
-
 
 
 func BytesToUint64(array []byte) uint64 {
