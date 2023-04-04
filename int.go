@@ -209,17 +209,10 @@ func Uint64ToBytes(n uint64) []byte {
 		byte(n),
 	}
 }
-/*
-//this is big endian
-func Uint64ToBytes(n uint64) (b []byte) {
-	for i := 7; i >= 0; i-- {
-		b[i] = byte(n & 0xff)
-		n >>= 8
-	}
-	return
-}
-*/
 
+
+/*
+//this is big endian, this is variable byte length returned
 func Uint64ToVBytes(n uint64) (b []byte) {
 	for i := 7; i >= 0; i-- {
 		b[i] = byte(n & 0xff)
@@ -227,7 +220,7 @@ func Uint64ToVBytes(n uint64) (b []byte) {
 	}
 	return
 }
-/*
+*/
 
 //this is big endian
 func Uint64ToVBytes(n uint64) []byte {
@@ -273,4 +266,3 @@ func Uint64ToVBytes(n uint64) []byte {
 	
 }
 
-*/
