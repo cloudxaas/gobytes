@@ -25,31 +25,21 @@ func Uint16ToBytesR(n uint16) []byte {
 }
 
 func Uint16ToVBytes(n uint16) []byte {
-	if n > 255 {
-		return []byte{
-			byte(n >> 8),
-			byte(n),
-		}
-
-	} else {
-		return []byte{byte(n)}
-	}
+    if n > 255 {
+        return []byte{byte(n >> 8), byte(n)}
+    }
+    return []byte{byte(n)}
 }
-
 
 
 //this works for variable length bytes
 func BytesToUint16(b []byte) uint16 {
-    if len(b) == 0 {
-        return 0
+    var n uint16
+    for i := range b {
+        n |= uint16(b[i]) << uint(8*i)
     }
-	if len(b) == 1 {
-		return uint16(b[0])
-	}
-    return uint16(b[1]) | uint16(b[0])<<8
+    return n
 }
-
-
 
 
 
@@ -80,13 +70,12 @@ func BytesToUint24(b []byte) uint32 {
 
 //bigendian
 func VBytesToUint16(b []byte) uint16 {
-	var j uint16
-	for i := 0; i < len(b); i++ {
-		j += (uint16(b[i]) << ((len(b) - i - 1) * 8))
-	}
-	return j
+    var j uint16
+    for _, v := range b {
+        j = (j << 8) | uint16(v)
+    }
+    return j
 }
-
 
 
 
