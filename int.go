@@ -209,3 +209,47 @@ func Uint64ToBytes(n uint64) []byte {
 		byte(n),
 	}
 }
+
+//this is big endian
+func Uint64ToVBytes(n uint64) []byte {
+	if n > 281474976710655 {
+		return []byte{
+			byte(n >> 56),
+			byte(n >> 48),
+			byte(n >> 40),
+			byte(n >> 32),
+			byte(n >> 24),
+			byte(n >> 16),
+			byte(n >> 8),
+			byte(n),
+		}
+	} else if n > 4294967295 {
+		return []byte{
+			byte(n >> 48),
+			byte(n >> 40),
+			byte(n >> 32),
+			byte(n >> 24),
+			byte(n >> 16),
+			byte(n >> 8),
+			byte(n),
+		}
+	} else if n > 65535 {
+		return []byte{
+			byte(n >> 32),
+			byte(n >> 24),
+			byte(n >> 16),
+			byte(n >> 8),
+			byte(n),
+		}
+	} else if n > 255 {
+		return []byte{
+			byte(n >> 16),
+			byte(n >> 8),
+			byte(n),
+		}
+
+	}
+
+	return []byte{byte(n)}
+	
+}
