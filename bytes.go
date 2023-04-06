@@ -86,24 +86,24 @@ func ListContainsBytes(list [][]byte, value []byte) uint8 {
 }
 
 
-func SortedListContainsBytes(sorted [][]byte, target []byte) bool {
+func SortedListContainsBytes(sorted [][]byte, target []byte) uint8 {
     n := len(sorted)
     if n == 0 {
-        return false
+        return 0
     }
     i, j := 0, n-1
     for i <= j {
         h := int(uint(i+j) >> 1) // avoid overflow
         cmp := bytes.Compare(sorted[h], target)
         if cmp == 0 {
-            return true
+            return 1
         } else if cmp < 0 {
             i = h + 1
         } else {
             j = h - 1
         }
     }
-    return false
+    return 0
 }
 
 func BytesIncr(data []byte) []byte {
