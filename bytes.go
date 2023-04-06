@@ -93,6 +93,47 @@ func Sort(s *[][]byte) {
 	Sort(&rightS)
 }
 
+func AppendSortedUnique(sorted *[][]byte, new []byte) {
+    if len(*sorted) == 0 {
+        *sorted = append(*sorted, new)
+        return
+    }
+
+    if bytes.Compare((*sorted)[len(*sorted)-1], new) < 0 {
+        *sorted = append(*sorted, new)
+        return
+    }
+
+    if bytes.Compare((*sorted)[0], new) > 0 {
+        *sorted = append([][]byte{new}, *sorted...)
+        return
+    }
+
+    left := 0
+    right := len(*sorted) - 1
+
+    for left <= right {
+        mid := left + (right-left)/2
+        cmp := bytes.Compare((*sorted)[mid], new)
+        if cmp == 0 {
+            return
+        }
+        if cmp < 0 {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+
+    if left < len(*sorted) && bytes.Equal((*sorted)[left], new) {
+        return
+    }
+
+    *sorted = append(*sorted, nil)
+    copy((*sorted)[left+1:], (*sorted)[left:])
+    (*sorted)[left] = new
+}
+
 func ListContains(list [][]byte, value []byte) uint8 {
     for _, v := range list {
         if bytes.Equal(v, value) {
