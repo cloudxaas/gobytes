@@ -25,7 +25,7 @@ func Reverse(element *[]byte) {
     }    
 }
 
-func AppendSortedByteSlices(sorted *[][]byte, new []byte) {
+func AppendSorted(sorted *[][]byte, new []byte) {
 	if len(*sorted) == 0 {
 		*sorted = append(*sorted, new)
 		return
@@ -59,38 +59,41 @@ func AppendSortedByteSlices(sorted *[][]byte, new []byte) {
 	*sorted = append((*sorted)[:left+1], append([][]byte{new}, (*sorted)[left+1:]...)...)
 }
 
-func SortByteSlices(s *[][]byte) {
-    if len(*s) < 2 {
-        return
-    }
 
-    pivot := (*s)[len(*s)-1]
-    left, right := 0, len(*s)-2
+func Sort(s *[][]byte) {
+	if len(*s) < 2 {
+		return
+	}
 
-    for left <= right {
-        if bytes.Compare((*s)[left], pivot) < 0 {
-            left++
-            continue
-        }
+	pivot := (*s)[len(*s)-1]
+	left, right := 0, len(*s)-2
 
-        if bytes.Compare((*s)[right], pivot) >= 0 {
-            right--
-            continue
-        }
+	for left <= right {
+		if bytes.Compare((*s)[left], pivot) < 0 {
+			left++
+			continue
+		}
 
-        (*s)[left], (*s)[right] = (*s)[right], (*s)[left]
-        left++
-        right--
-    }
+		if bytes.Compare((*s)[right], pivot) >= 0 {
+			right--
+			continue
+		}
 
-    (*s)[len(*s)-1], (*s)[left] = (*s)[left], (*s)[len(*s)-1]
+		(*s)[left], (*s)[right] = (*s)[right], (*s)[left]
+		left++
+		right--
+	}
 
-    SortByteSlices(&(*s)[:left])
-    SortByteSlices(&(*s)[left+1:])
+	(*s)[len(*s)-1], (*s)[left] = (*s)[left], (*s)[len(*s)-1]
+
+	leftS := (*s)[:left]
+	rightS := (*s)[left+1:]
+
+	Sort(&leftS)
+	Sort(&rightS)
 }
 
-
-func ListContainsBytes(list [][]byte, value []byte) uint8 {
+func ListContains(list [][]byte, value []byte) uint8 {
     for _, v := range list {
         if bytes.Equal(v, value) {
             return 1
@@ -100,7 +103,7 @@ func ListContainsBytes(list [][]byte, value []byte) uint8 {
 }
 
 
-func SortedListContainsBytes(sorted [][]byte, target []byte) uint8 {
+func SortedListContains(sorted [][]byte, target []byte) uint8 {
     n := len(sorted)
     if n == 0 {
         return 0
