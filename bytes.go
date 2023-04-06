@@ -11,13 +11,13 @@ func BytesReverse(element []byte) []byte {
     return element
 }
 
-func ListContainsBytes(list [][]byte, value []byte) bool {
+func ListContainsBytes(list [][]byte, value []byte) uint8 {
     for _, v := range list {
         if bytes.Equal(v, value) {
-            return true
+            return 1
         }
     }
-    return false
+    return 0
 }
 
 
