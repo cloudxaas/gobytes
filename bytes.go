@@ -121,30 +121,28 @@ func SortedListContainsBytes(sorted [][]byte, target []byte) uint8 {
     return 0
 }
 
-func Incr(data []byte) []byte {
-	if len(data) == 0 {
-		return []byte{1}
-	}
+//this is big endian
+func Incr(data []byte) []byte{
+        if len(data) == 0 {
+                return []byte{1}
+        }
+        element := make([]byte, len(data))
+        copy(element,data)
 
-	// Find the index of the first non-zero byte from the right
-	idx := len(data) - 1
-	for idx >= 0 && data[idx] == 0 {
-		idx--
-	}
-
-	// If all bytes are 0, create a new byte slice with an extra leading 1
-	if idx < 0 {
-		b := make([]byte, len(data)+1)
-		b[0] = 1
-		return b
-	}
-
-	// Increment the last non-zero byte
-	element := make([]byte, len(data))
-	copy(element, data)
-	element[idx]++
-
-	return element
+        for i:=len(element); i > 0; i-- {
+                element[i-1]++
+                if (element[i-1] != 0) {
+                        break
+                }else{
+                        if len(element) == i {
+                                b:=make([]byte,len(element)+1)
+                                copy(b[:len(element)],[]byte{1})
+                                copy(b[len(element):],element)
+                                return b
+                        }
+                }
+        }
+        return element
 }
 
 
