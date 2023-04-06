@@ -11,6 +11,40 @@ func BytesReverse(element []byte) []byte {
     return element
 }
 
+func AppendSortedByteSlices(sorted [][]byte, new []byte) {
+    if len(sorted) == 0 {
+        sorted = append(sorted, new)
+        return
+    }
+    if bytes.Compare(sorted[len(sorted)-1], new) < 0 {
+        sorted = append(sorted, new)
+        return
+    }
+    if bytes.Compare(sorted[0], new) > 0 {
+        sorted = append([][]byte{new}, sorted...)
+        return
+    }
+
+    left := 0
+    right := len(sorted) - 1
+
+    for left <= right {
+        mid := left + (right-left)/2
+        cmp := bytes.Compare(sorted[mid], new)
+        if cmp == 0 {
+            copy(sorted[mid+1:], sorted[mid:])
+            sorted[mid] = new
+            return
+        }
+        if cmp < 0 {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+    sorted = append(sorted[:left+1], append([][]byte{new}, sorted[left+1:]...)...)
+}
+
 func SortByteSlices(s [][]byte) {
     if len(s) < 2 {
         return
