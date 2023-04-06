@@ -71,8 +71,8 @@ func SortByteSlices(s [][]byte) {
 
     s[len(s)-1], s[left] = s[left], s[len(s)-1]
 
-    FastSortByteSlices(s[:left])
-    FastSortByteSlices(s[left+1:])
+    SortByteSlices(s[:left])
+    SortByteSlices(s[left+1:])
 }
 
 
