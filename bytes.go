@@ -19,77 +19,75 @@ func SplitByNewline(data []byte) [][]byte {
     return lines
 }
 
-func Reverse(element []byte) []byte {
-    for i, j := 0, len(element)-1; i < j; i, j = i+1, j-1 {
-        element[i], element[j] = element[j], element[i]
-    }
-    return element
+func Reverse(element *[]byte) {
+    for i, j := 0, len(*element)-1; i < j; i, j = i+1, j-1 {
+	    (*element)[i], (*element)[j] = (*element)[j], (*element)[i]
+    }    
 }
 
-func AppendSortedByteSlices(sorted [][]byte, new []byte) {
-    if len(sorted) == 0 {
-        sorted = append(sorted, new)
-        return
-    }
-    if bytes.Compare(sorted[len(sorted)-1], new) < 0 {
-        sorted = append(sorted, new)
-        return
-    }
-    if bytes.Compare(sorted[0], new) > 0 {
-        sorted = append([][]byte{new}, sorted...)
-        return
-    }
+func AppendSortedByteSlices(sorted *[][]byte, new []byte) {
+	if len(*sorted) == 0 {
+		*sorted = append(*sorted, new)
+		return
+	}
+	if bytes.Compare((*sorted)[len(*sorted)-1], new) < 0 {
+		*sorted = append(*sorted, new)
+		return
+	}
+	if bytes.Compare((*sorted)[0], new) > 0 {
+		*sorted = append([][]byte{new}, *sorted...)
+		return
+	}
 
-    left := 0
-    right := len(sorted) - 1
+	left := 0
+	right := len(*sorted) - 1
 
-    for left <= right {
-        mid := left + (right-left)/2
-        cmp := bytes.Compare(sorted[mid], new)
-        if cmp == 0 {
-            copy(sorted[mid+1:], sorted[mid:])
-            sorted[mid] = new
-            return
-        }
-        if cmp < 0 {
-            left = mid + 1
-        } else {
-            right = mid - 1
-        }
-    }
-    sorted = append(sorted[:left+1], append([][]byte{new}, sorted[left+1:]...)...)
+	for left <= right {
+		mid := left + (right-left)/2
+		cmp := bytes.Compare((*sorted)[mid], new)
+		if cmp == 0 {
+			copy((*sorted)[mid+1:], (*sorted)[mid:])
+			(*sorted)[mid] = new
+			return
+		}
+		if cmp < 0 {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	*sorted = append((*sorted)[:left+1], append([][]byte{new}, (*sorted)[left+1:]...)...)
 }
 
-func SortByteSlices(s [][]byte) {
-    if len(s) < 2 {
+func SortByteSlices(s *[][]byte) {
+    if len(*s) < 2 {
         return
     }
 
-    pivot := s[len(s)-1]
-    left, right := 0, len(s)-2
+    pivot := (*s)[len(*s)-1]
+    left, right := 0, len(*s)-2
 
     for left <= right {
-        if bytes.Compare(s[left], pivot) < 0 {
+        if bytes.Compare((*s)[left], pivot) < 0 {
             left++
             continue
         }
 
-        if bytes.Compare(s[right], pivot) >= 0 {
+        if bytes.Compare((*s)[right], pivot) >= 0 {
             right--
             continue
         }
 
-        s[left], s[right] = s[right], s[left]
+        (*s)[left], (*s)[right] = (*s)[right], (*s)[left]
         left++
         right--
     }
 
-    s[len(s)-1], s[left] = s[left], s[len(s)-1]
+    (*s)[len(*s)-1], (*s)[left] = (*s)[left], (*s)[len(*s)-1]
 
-    SortByteSlices(s[:left])
-    SortByteSlices(s[left+1:])
+    SortByteSlices(&(*s)[:left])
+    SortByteSlices(&(*s)[left+1:])
 }
-
 
 func ListContainsBytes(list [][]byte, value []byte) uint8 {
     for _, v := range list {
@@ -121,28 +119,18 @@ func SortedListContainsBytes(sorted [][]byte, target []byte) uint8 {
     return 0
 }
 
-//this is big endian
-func Incr(data []byte) []byte{
-        if len(data) == 0 {
-                return []byte{1}
-        }
-        element := make([]byte, len(data))
-        copy(element,data)
+func Incr(data *[]byte) {
+	if len(*data) == 0 {
+		*data = []byte{1}
+	}
 
-        for i:=len(element); i > 0; i-- {
-                element[i-1]++
-                if (element[i-1] != 0) {
-                        break
-                }else{
-                        if len(element) == i {
-                                b:=make([]byte,len(element)+1)
-                                copy(b[:len(element)],[]byte{1})
-                                copy(b[len(element):],element)
-                                return b
-                        }
-                }
-        }
-        return element
+	for i := len(*data); i > 0; i-- {
+		(*data)[i-1]++
+		if (*data)[i-1] != 0 {
+			break
+		} else if len(*data) == i {
+			*data = append([]byte{1}, (*data)...)
+		}
+	}
 }
-
 
