@@ -1,5 +1,9 @@
 package cxbytes
 
+import (
+	"bytes"
+)
+
 func BytesReverse(element []byte) []byte {
     for i, j := 0, len(element)-1; i < j; i, j = i+1, j-1 {
         element[i], element[j] = element[j], element[i]
@@ -7,6 +11,14 @@ func BytesReverse(element []byte) []byte {
     return element
 }
 
+func ListContainsBytes(list [][]byte, value []byte) bool {
+    for _, v := range list {
+        if bytes.Equal(v, value) {
+            return true
+        }
+    }
+    return false
+}
 
 
 func BytesIncr(data []byte) []byte {
