@@ -11,6 +11,37 @@ func BytesReverse(element []byte) []byte {
     return element
 }
 
+func SortByteSlices(s [][]byte) {
+    if len(s) < 2 {
+        return
+    }
+
+    pivot := s[len(s)-1]
+    left, right := 0, len(s)-2
+
+    for left <= right {
+        if bytes.Compare(s[left], pivot) < 0 {
+            left++
+            continue
+        }
+
+        if bytes.Compare(s[right], pivot) >= 0 {
+            right--
+            continue
+        }
+
+        s[left], s[right] = s[right], s[left]
+        left++
+        right--
+    }
+
+    s[len(s)-1], s[left] = s[left], s[len(s)-1]
+
+    FastSortByteSlices(s[:left])
+    FastSortByteSlices(s[left+1:])
+}
+
+
 func ListContainsBytes(list [][]byte, value []byte) uint8 {
     for _, v := range list {
         if bytes.Equal(v, value) {
@@ -20,6 +51,26 @@ func ListContainsBytes(list [][]byte, value []byte) uint8 {
     return 0
 }
 
+
+func SortedListContainsBytes(sorted [][]byte, target []byte) bool {
+    n := len(sorted)
+    if n == 0 {
+        return false
+    }
+    i, j := 0, n-1
+    for i <= j {
+        h := int(uint(i+j) >> 1) // avoid overflow
+        cmp := bytes.Compare(sorted[h], target)
+        if cmp == 0 {
+            return true
+        } else if cmp < 0 {
+            i = h + 1
+        } else {
+            j = h - 1
+        }
+    }
+    return false
+}
 
 func BytesIncr(data []byte) []byte {
 	if len(data) == 0 {
