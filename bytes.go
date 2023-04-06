@@ -59,6 +59,26 @@ func AppendSorted(sorted *[][]byte, new []byte) {
 	*sorted = append((*sorted)[:left+1], append([][]byte{new}, (*sorted)[left+1:]...)...)
 }
 
+func RemoveFromSort(sorted *[][]byte, toRemove []byte) {
+    left := 0
+    right := len(*sorted) - 1
+
+    for left <= right {
+        mid := left + (right-left)/2
+        cmp := bytes.Compare((*sorted)[mid], toRemove)
+        if cmp == 0 {
+            copy((*sorted)[mid:], (*sorted)[mid+1:])
+            (*sorted)[len(*sorted)-1] = nil // release the last element
+            *sorted = (*sorted)[:len(*sorted)-1] // shrink the slice
+            return
+        }
+        if cmp < 0 {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+}
 
 func Sort(s *[][]byte) {
 	if len(*s) < 2 {
