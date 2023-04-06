@@ -4,7 +4,22 @@ import (
 	"bytes"
 )
 
-func BytesReverse(element []byte) []byte {
+func SplitByNewline(data []byte) [][]byte {
+    var lines [][]byte
+    start := 0
+    for i, b := range data {
+        if b == '\n' {
+            lines = append(lines, data[start:i])
+            start = i + 1
+        }
+    }
+    if start < len(data) {
+        lines = append(lines, data[start:])
+    }
+    return lines
+}
+
+func Reverse(element []byte) []byte {
     for i, j := 0, len(element)-1; i < j; i, j = i+1, j-1 {
         element[i], element[j] = element[j], element[i]
     }
@@ -106,7 +121,7 @@ func SortedListContainsBytes(sorted [][]byte, target []byte) uint8 {
     return 0
 }
 
-func BytesIncr(data []byte) []byte {
+func Incr(data []byte) []byte {
 	if len(data) == 0 {
 		return []byte{1}
 	}
