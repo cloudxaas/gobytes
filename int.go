@@ -1,16 +1,16 @@
 package cxbytes
 
 //uint8 to byte
-func Uint8ToBytes(n uint8) []byte {
-	return []byte{n}
+func Uint8ToBytes(n uint8) [1]byte {
+	return [1]byte{n}
 }
 
 
 
 
 //uint16 to fixed 2 bytes, big endian
-func Uint16ToBytes(n uint16) []byte {
-	return []byte{
+func Uint16ToBytes(n uint16) [2]byte {
+	return [2]byte{
 		byte(n >> 8),
 		byte(n),
 	}
@@ -53,8 +53,8 @@ func Uint24ToBytes(n uint32) []byte {
 }
 
 //uint24 to fixed 3 bytes, little endian
-func Uint24ToBytesR(n uint32) []byte {
-	return []byte{
+func Uint24ToBytesR(n uint32) [3]byte {
+	return [3]byte{
 		byte(n),
 		byte(n >> 8),
 		byte(n >> 16),
@@ -85,12 +85,12 @@ func VBytesToUint16(b []byte) uint16 {
 
 
 
-func Int32ToBytes(n int32) []byte {
+func Int32ToBytes(n int32) [4]byte {
 	return Uint32ToBytes(uint32(n))
 }
 
 func Uint32ToBytes(n uint32) [4]byte {
-	return []byte{
+	return [4]byte{
 		byte(n >> 24),
 		byte(n >> 16),
 		byte(n >> 8),
@@ -209,8 +209,8 @@ func Uint64ToBytes(n uint64) []byte {
 }
 */
 
-func Uint64ToBytes(n uint64) []byte {
-	return []byte{
+func Uint64ToBytes(n uint64) [8]byte {
+	return [8]byte{
 		byte(n >> 56),
 		byte(n >> 48),
 		byte(n >> 40),
