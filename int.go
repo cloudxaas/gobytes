@@ -89,7 +89,7 @@ func Int32ToBytes(n int32) []byte {
 	return Uint32ToBytes(uint32(n))
 }
 
-func Uint32ToBytes(n uint32) []byte {
+func Uint32ToBytes(n uint32) [4]byte {
 	return []byte{
 		byte(n >> 24),
 		byte(n >> 16),
