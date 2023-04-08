@@ -1,77 +1,38 @@
+package cxbytes
 
-//bigendian
-func BytesToInt56(element []byte) int64 {
-    var val int64
-    for i := 0; i < 7; i++ {
-        if i < len(element) {
-            val += int64(element[len(element)-1-i]) << uint(8*(7-i))
-        }
-    }
-    if element[0]&0x80 != 0 {
-        val -= 1 << 56
-    }
-    return val
+// bytes to uint8
+func BytesToUint8(b []byte) uint8 {
+    return b[0]
 }
 
-
-
-
-func BytesToUint24(b []byte) uint32 {
-	return VBytesToUint32(b)
-}
-
-
-
-//this works for variable length bytes
+// bytes to uint16, big endian
 func BytesToUint16(b []byte) uint16 {
-    var n uint16
-    for i := range b {
-        n |= uint16(b[i]) << uint(8*i)
-    }
-    return n
+    return uint16(b[0])<<8 | uint16(b[1])
 }
 
-
-//bigendian
-func VBytesToUint16(b []byte) uint16 {
-    var j uint16
-    for _, v := range b {
-        j = (j << 8) | uint16(v)
-    }
-    return j
+// bytes to uint16, little endian
+func BytesToUint16R(b []byte) uint16 {
+    return uint16(b[0]) | uint16(b[1])<<8
 }
 
-
-//bigendian
-func VBytesToUint32(b []byte) uint32 {
-    var j uint32
-    for _, v := range b {
-        j = (j << 8) | uint32(v)
-    }
-    return j
+// bytes to uint32, big endian
+func BytesToUint32(b []byte) uint32 {
+    return uint32(b[0])<<24 | uint32(b[1])<<16 | uint32(b[2])<<8 | uint32(b[3])
 }
 
-
-
-//bigendian
-func VBytesToUint64(b []byte) uint64 {
-    var j uint64
-    for _, v := range b {
-        j = (j << 8) | uint64(v)
-    }
-    return j
+// bytes to uint32, little endian
+func BytesToUint32R(b []byte) uint32 {
+    return uint32(b[0]) | uint32(b[1])<<8 | uint32(b[2])<<16 | uint32(b[3])<<24
 }
 
-
-func BytesToUint64(array []byte) uint64 {
-	var data uint64 = 0
-	if len(array) == 0 {
-		return 0
-	}
-	//for i:=0;i< len(array);i++  {
-	for i := 0; i < len(array); i++ {
-		data += uint64(uint(array[i]) << uint(8*(len(array)-i-1)))
-	}
-	return data
+// bytes to uint64, big endian
+func BytesToUint64(b []byte) uint64 {
+    return uint64(b[0])<<56 | uint64(b[1])<<48 | uint64(b[2])<<40 | uint64(b[3])<<32 |
+           uint64(b[4])<<24 | uint64(b[5])<<16 | uint64(b[6])<<8 | uint64(b[7])
 }
 
+// bytes to uint64, little endian
+func BytesToUint64R(b []byte) uint64 {
+    return uint64(b[0]) | uint64(b[1])<<8 | uint64(b[2])<<16 | uint64(b[3])<<24 |
+           uint64(b[4])<<32 | uint64(b[5])<<40 | uint64(b[6])<<48 | uint64(b[7])<<56
+}
