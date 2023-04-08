@@ -10,11 +10,6 @@ func Uint16ToVBytes(n uint16) []byte {
 
 
 
-
-func Int32ToBytes(n int32) [4]byte {
-	return Uint32ToBytes(uint32(n))
-}
-
 func Uint32ToBytes(n uint32) [4]byte {
 	return [4]byte{
 		byte(n >> 24),
