@@ -1,84 +1,77 @@
 package cxbytes
 
 
-
-
-
-//bigendian
-func BytesToInt56(element []byte) int64 {
-    var val int64
-    for i := 0; i < 7; i++ {
-        if i < len(element) {
-            val += int64(element[len(element)-1-i]) << uint(8*(7-i))
-        }
-    }
-    if element[0]&0x80 != 0 {
-        val -= 1 << 56
-    }
-    return val
+// uint8 to byte
+func Uint8ToBytes(n uint8) []byte {
+    b := make([]byte, 1)
+    b[0] = n
+    return b
 }
 
-
-
-
-func BytesToUint24(b []byte) uint32 {
-	return VBytesToUint32(b)
+// uint16 to bytes, big endian
+func Uint16ToBytes(n uint16) []byte {
+    b := make([]byte, 2)
+    b[0] = byte(n >> 8)
+    b[1] = byte(n)
+    return b
 }
 
-
-
-//this works for variable length bytes
-func BytesToUint16(b []byte) uint16 {
-    var n uint16
-    for i := range b {
-        n |= uint16(b[i]) << uint(8*i)
-    }
-    return n
+// uint16 to bytes, little endian
+func Uint16ToBytesR(n uint16) []byte {
+    b := make([]byte, 2)
+    b[0] = byte(n)
+    b[1] = byte(n >> 8)
+    return b
 }
 
-
-//bigendian
-func VBytesToUint16(b []byte) uint16 {
-    var j uint16
-    for _, v := range b {
-        j = (j << 8) | uint16(v)
-    }
-    return j
+// uint32 to bytes, big endian
+func Uint32ToBytes(n uint32) []byte {
+    b := make([]byte, 4)
+    b[0] = byte(n >> 24)
+    b[1] = byte(n >> 16)
+    b[2] = byte(n >> 8)
+    b[3] = byte(n)
+    return b
 }
 
-
-//bigendian
-func VBytesToUint32(b []byte) uint32 {
-    var j uint32
-    for _, v := range b {
-        j = (j << 8) | uint32(v)
-    }
-    return j
+// uint32 to bytes, little endian
+func Uint32ToBytesR(n uint32) []byte {
+    b := make([]byte, 4)
+    b[0] = byte(n)
+    b[1] = byte(n >> 8)
+    b[2] = byte(n >> 16)
+    b[3] = byte(n >> 24)
+    return b
 }
 
-
-
-//bigendian
-func VBytesToUint64(b []byte) uint64 {
-    var j uint64
-    for _, v := range b {
-        j = (j << 8) | uint64(v)
-    }
-    return j
+// uint64 to bytes, big endian
+func Uint64ToBytes(n uint64) []byte {
+    b := make([]byte, 8)
+    b[0] = byte(n >> 56)
+    b[1] = byte(n >> 48)
+    b[2] = byte(n >> 40)
+    b[3] = byte(n >> 32)
+    b[4] = byte(n >> 24)
+    b[5] = byte(n >> 16)
+    b[6] = byte(n >> 8)
+    b[7] = byte(n)
+    return b
 }
 
-
-func BytesToUint64(array []byte) uint64 {
-	var data uint64 = 0
-	if len(array) == 0 {
-		return 0
-	}
-	//for i:=0;i< len(array);i++  {
-	for i := 0; i < len(array); i++ {
-		data += uint64(uint(array[i]) << uint(8*(len(array)-i-1)))
-	}
-	return data
+// uint64 to bytes, little endian
+func Uint64ToBytesR(n uint64) []byte {
+    b := make([]byte, 8)
+    b[0] = byte(n)
+    b[1] = byte(n >> 8)
+    b[2] = byte(n >> 16)
+    b[3] = byte(n >> 24)
+    b[4] = byte(n >> 32)
+    b[5] = byte(n >> 40)
+    b[6] = byte(n >> 48)
+    b[7] = byte(n >> 56)
+    return b
 }
+
 
 
 
