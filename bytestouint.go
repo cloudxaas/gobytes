@@ -36,3 +36,80 @@ func BytesToUint64R(b []byte) uint64 {
     return uint64(b[0]) | uint64(b[1])<<8 | uint64(b[2])<<16 | uint64(b[3])<<24 |
            uint64(b[4])<<32 | uint64(b[5])<<40 | uint64(b[6])<<48 | uint64(b[7])<<56
 }
+
+//Variable bytes
+
+
+// Big-endian
+func VBytesToUint8(b []byte) uint8 {
+	var j uint8
+	for i := 0; i < len(b); i++ {
+		j += (uint8(b[i]) << ((len(b) - i - 1) * 8))
+	}
+	return j
+}
+
+// Big-endian
+func VBytesToUint16(b []byte) uint16 {
+	var j uint16
+	for i := 0; i < len(b); i++ {
+		j += (uint16(b[i]) << ((len(b) - i - 1) * 8))
+	}
+	return j
+}
+
+// Big-endian
+func VBytesToUint32(b []byte) uint32 {
+	var j uint32
+	for i := 0; i < len(b); i++ {
+		j = j + (uint32(b[i]) << ((len(b) - i - 1) * 8))
+	}
+	return j
+}
+
+// Big-endian
+func VBytesToUint64(b []byte) uint64 {
+	var j uint64
+	for i := 0; i < len(b); i++ {
+		j = j + (uint64(b[i]) << ((len(b) - i - 1) * 8))
+	}
+	return j
+}
+
+
+
+// Little-endian
+func VBytesRToUint8(b []byte) uint8 {
+	var j uint8
+	for i := 0; i < len(b); i++ {
+		j += (uint8(b[i]) << (i * 8))
+	}
+	return j
+}
+
+// Little-endian
+func VBytesRToUint16(b []byte) uint16 {
+	var j uint16
+	for i := 0; i < len(b); i++ {
+		j += (uint16(b[i]) << (i * 8))
+	}
+	return j
+}
+
+// Little-endian
+func VBytesRToUint32(b []byte) uint32 {
+	var j uint32
+	for i := 0; i < len(b); i++ {
+		j = j + (uint32(b[i]) << (i * 8))
+	}
+	return j
+}
+
+// Little-endian
+func VBytesRToUint64(b []byte) uint64 {
+	var j uint64
+	for i := 0; i < len(b); i++ {
+		j = j + (uint64(b[i]) << (i * 8))
+	}
+	return j
+}
