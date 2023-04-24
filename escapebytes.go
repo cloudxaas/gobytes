@@ -55,6 +55,43 @@ func AppendSortedKV(sorted *[][]byte, new [][]byte) {
 	}
 }
 
+
+func AppendSortedUniqueKV(sorted *[][]byte, new [][]byte) {
+	for i := 0; i < len(new); i += 2 {
+		newKey := new[i]
+		newValue := new[i+1]
+		sortedLen := len(*sorted)
+
+		if sortedLen == 0 {
+			*sorted = [][]byte{newKey, newValue}
+			continue
+		}
+
+		left := 0
+		right := (sortedLen / 2) - 1
+
+		for left <= right {
+			mid := left + (right-left)/2
+			cmp := bytes.Compare((*sorted)[2*mid], newKey)
+			if cmp == 0 {
+				(*sorted)[2*mid+1] = newValue
+				break
+			}
+			if cmp < 0 {
+				left = mid + 1
+			} else {
+				right = mid - 1
+			}
+		}
+		if left <= right {
+			continue
+		}
+		insertIndex := 2 * left
+		*sorted = append(append((*sorted)[:insertIndex], newKey, newValue), (*sorted)[insertIndex:]...)
+	}
+}
+
+
 func AppendSorted(sorted *[][]byte, new []byte) {
 	if len(*sorted) == 0 {
 		*sorted = append(*sorted, new)
