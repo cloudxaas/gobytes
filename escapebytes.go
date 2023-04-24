@@ -18,6 +18,44 @@ func Incr(data *[]byte) {
 }
 
 
+func AppendSortedKV(sorted *[][]byte, new [][]byte) {
+	newKey := new[0]
+	newValue := new[1]
+	if len(*sorted) == 0 {
+		*sorted = append(*sorted, newKey, newValue)
+		return
+	}
+	if bytes.Compare((*sorted)[len(*sorted)-2], newKey) < 0 {
+		*sorted = append(*sorted, newKey, newValue)
+		return
+	}
+	if bytes.Compare((*sorted)[0], newKey) > 0 {
+		*sorted = append([][]byte{newKey, newValue}, *sorted...)
+		return
+	}
+
+	left := 0
+	right := (len(*sorted) / 2) - 1
+
+	for left <= right {
+		mid := left + (right-left)/2
+		cmp := bytes.Compare((*sorted)[2*mid], newKey)
+		if cmp == 0 {
+			copy((*sorted)[2*(mid+1):], (*sorted)[2*mid:])
+			(*sorted)[2*mid] = newKey
+			(*sorted)[2*mid+1] = newValue
+			return
+		}
+		if cmp < 0 {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	insertIndex := 2 * left
+	*sorted = append((*sorted)[:insertIndex], append([][]byte{newKey, newValue}, (*sorted)[insertIndex:]...)...)
+}
+
 
 func AppendSorted(sorted *[][]byte, new []byte) {
 	if len(*sorted) == 0 {
