@@ -69,12 +69,14 @@ func AppendSortedUniqueKV(sorted *[][]byte, new [][]byte) {
 
 		left := 0
 		right := (sortedLen / 2) - 1
+		found := false
 
 		for left <= right {
 			mid := left + (right-left)/2
 			cmp := bytes.Compare((*sorted)[2*mid], newKey)
 			if cmp == 0 {
 				(*sorted)[2*mid+1] = newValue
+				found = true
 				break
 			}
 			if cmp < 0 {
@@ -83,11 +85,11 @@ func AppendSortedUniqueKV(sorted *[][]byte, new [][]byte) {
 				right = mid - 1
 			}
 		}
-		if left <= right {
+		if found {
 			continue
 		}
 		insertIndex := 2 * left
-		*sorted = append(append((*sorted)[:insertIndex], newKey, newValue), (*sorted)[insertIndex:]...)
+		*sorted = append((*sorted)[:insertIndex], append([][]byte{newKey, newValue}, (*sorted)[insertIndex:]...)...)
 	}
 }
 
