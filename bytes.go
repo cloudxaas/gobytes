@@ -56,6 +56,41 @@ func ListContains(list [][]byte, value []byte) uint8 {
 }
 
 
+func SortedKVListContains(sorted *[][]byte, key []byte) ([][]byte, bool) {
+	left := 0
+	right := (len(*sorted) / 2) - 1
+
+	// Find the first occurrence of the key using binary search
+	for left <= right {
+		mid := left + (right-left)/2
+		cmp := bytes.Compare((*sorted)[2*mid], key)
+
+		if cmp == 0 && (mid == 0 || bytes.Compare((*sorted)[2*(mid-1)], key) != 0) {
+			left = mid
+			break
+		}
+
+		if cmp < 0 {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+
+	// If the key is not found, return false
+	if left > right {
+		return nil, false
+	}
+
+	// Collect all values for the key
+	values := [][]byte{}
+	for i := left; i < len(*sorted)/2 && bytes.Compare((*sorted)[2*i], key) == 0; i++ {
+		values = append(values, (*sorted)[2*i+1])
+	}
+
+	return values, true
+}
+
 func SortedListContains(sorted [][]byte, target []byte) uint8 {
     n := len(sorted)
     if n == 0 {
