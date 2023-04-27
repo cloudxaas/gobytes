@@ -24,15 +24,6 @@ func Uint16ToBytesR(n uint16) []byte {
     return b
 }
 
-// uint32 to bytes, big endian
-func Uint24ToBytes(n uint32) []byte {
-    b := make([]byte, 3)
-    b[0] = byte(n >> 16)
-    b[1] = byte(n >> 8)
-    b[2] = byte(n)
-    return b
-}
-
 
 // uint32 to bytes, big endian
 func Uint32ToBytes(n uint32) []byte {
