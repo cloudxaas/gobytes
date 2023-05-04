@@ -25,6 +25,35 @@ func Reverse(element *[]byte) {
 }
 
 
+func RemoveFromSortCaseInsensitive(sorted *[][]byte, toRemove []byte) {
+	left := 0
+	right := len(*sorted) - 1
+	toRemoveLower := bytes.ToLower(toRemove)
+
+	for left <= right {
+		mid := left + (right-left)/2
+		midLower := bytes.ToLower((*sorted)[mid])
+		cmp := bytes.Compare(midLower, toRemoveLower)
+		if cmp == 0 {
+			copy((*sorted)[mid:], (*sorted)[mid+1:])
+			(*sorted)[len(*sorted)-1] = nil // release the last element
+			*sorted = (*sorted)[:len(*sorted)-1] // shrink the slice
+			return
+		}
+		if cmp < 0 {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+}
+
+
+
+
+
+
+
 func RemoveFromSort(sorted *[][]byte, toRemove []byte) {
     left := 0
     right := len(*sorted) - 1
