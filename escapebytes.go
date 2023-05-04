@@ -175,7 +175,7 @@ func AppendSortedUnique(sorted *[][]byte, new []byte) {
 
 
 
-func RemoveAllFromSortedKVList(sorted *[][]byte, key []byte, caseSensitive bool) {
+func RemoveAllFromSortedKVList(sorted *[][]byte, key []byte, caseSensitive uint8) {
 	for {
 		_, found := SortedKVListContains(sorted, key)
 		if !found {
@@ -186,15 +186,17 @@ func RemoveAllFromSortedKVList(sorted *[][]byte, key []byte, caseSensitive bool)
 	}
 }
 
-func RemoveFromSortedKVList(sorted *[][]byte, key []byte, caseSensitive bool) {
+func RemoveFromSortedKVList(sorted *[][]byte, key []byte, caseSensitive uint8) {
 	left := 0
 	right := (len(*sorted) / 2) - 1
-	keyLower := bytes.ToLower(key)
+	if caseSensitive == 1 {
+		keyLower := bytes.ToLower(key)
+	}
 
 	for left <= right {
 		mid := left + (right-left)/2
 		midKey := (*sorted)[2*mid]
-		if !caseSensitive {
+		if caseSensitive == 1 {
 			midKey = bytes.ToLower(midKey)
 		}
 		cmp := bytes.Compare(midKey, keyLower)
