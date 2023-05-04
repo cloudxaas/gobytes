@@ -177,7 +177,7 @@ func AppendSortedUnique(sorted *[][]byte, new []byte) {
 
 func RemoveAllFromSortedKVList(sorted *[][]byte, key []byte, caseSensitive bool) {
 	for {
-		values, found := SortedKVListContains(sorted, key)
+		_, found := SortedKVListContains(sorted, key)
 		if !found {
 			break
 		}
