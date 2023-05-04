@@ -173,3 +173,44 @@ func AppendSortedUnique(sorted *[][]byte, new []byte) {
     (*sorted)[left] = new
 }
 
+
+
+func RemoveAllFromSortedKVList(sorted *[][]byte, key []byte, caseSensitive bool) {
+	for {
+		values, found := SortedKVListContains(sorted, key)
+		if !found {
+			break
+		}
+
+		RemoveFromSortedKVList(sorted, key, caseSensitive)
+	}
+}
+
+func RemoveFromSortedKVList(sorted *[][]byte, key []byte, caseSensitive bool) {
+	left := 0
+	right := (len(*sorted) / 2) - 1
+	keyLower := bytes.ToLower(key)
+
+	for left <= right {
+		mid := left + (right-left)/2
+		midKey := (*sorted)[2*mid]
+		if !caseSensitive {
+			midKey = bytes.ToLower(midKey)
+		}
+		cmp := bytes.Compare(midKey, keyLower)
+		if cmp == 0 {
+			copy((*sorted)[2*mid:], (*sorted)[2*(mid+1):])
+			(*sorted)[len(*sorted)-2] = nil
+			(*sorted)[len(*sorted)-1] = nil
+			*sorted = (*sorted)[:len(*sorted)-2]
+			left = 0
+			right = (len(*sorted) / 2) - 1
+			continue
+		}
+		if cmp < 0 {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+}
