@@ -189,8 +189,11 @@ func RemoveAllFromSortedKVList(sorted *[][]byte, key []byte, caseSensitive uint8
 func RemoveFromSortedKVList(sorted *[][]byte, key []byte, caseSensitive uint8) {
 	left := 0
 	right := (len(*sorted) / 2) - 1
+	var keyLower []byte
 	if caseSensitive == 1 {
-		keyLower := bytes.ToLower(key)
+		keyLower = bytes.ToLower(key)
+	}else{
+		keyLower = key
 	}
 
 	for left <= right {
