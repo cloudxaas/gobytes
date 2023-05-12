@@ -201,6 +201,21 @@ func AppendSortedUnique(sorted *[][]byte, new []byte) {
     (*sorted)[left] = new
 }
 
+func RemoveAllFromKVList(list *[][]byte, key []byte, caseSensitive uint8) {
+	for i := 0; i < len(*list); i += 2 {
+		var equal bool
+		if caseSensitive == 1 {
+			equal = bytes.Equal((*list)[i], key)
+		} else {
+			equal = bytes.EqualFold((*list)[i], key)
+		}
+
+		if equal {
+			*list = append((*list)[:i], (*list)[i+2:]...)
+			i -= 2
+		}
+	}
+}
 
 
 func RemoveAllFromSortedKVList(sorted *[][]byte, key []byte, caseSensitive uint8) {
