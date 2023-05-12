@@ -103,7 +103,7 @@ func AppendSortedUniqueKV(sorted *[][]byte, new [][]byte) {
 	}
 }
 
-func AppendUniqueKV(sorted *[][]byte, new [][]byte) {
+func AppendUniqueKV(sorted *[][]byte, new [][]byte, overwrite uint8) {
 	for i := 0; i < len(new); i += 2 {
 		newKey := new[i]
 		newValue := new[i+1]
@@ -117,12 +117,15 @@ func AppendUniqueKV(sorted *[][]byte, new [][]byte) {
 		}
 
 		if existingIndex != -1 {
-			(*sorted)[existingIndex+1] = newValue
+			if overwrite == 1 {
+				(*sorted)[existingIndex+1] = newValue
+			}
 		} else {
 			*sorted = append(*sorted, newKey, newValue)
 		}
 	}
 }
+
 
 
 func AppendSorted(sorted *[][]byte, new []byte) {
