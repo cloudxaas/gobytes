@@ -24,6 +24,14 @@ func Reverse(element *[]byte) {
     }    
 }
 
+func KVListContains(list [][]byte, key []byte) uint8 {
+    for i := 0; i < len(list); i += 2 {
+        if bytes.Equal(list[i], key) {
+            return 1
+        }
+    }
+    return 0
+}
 
 func RemoveFromSortCaseInsensitive(sorted *[][]byte, toRemove []byte) {
 	left := 0
