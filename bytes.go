@@ -24,7 +24,7 @@ func Reverse(element *[]byte) {
     }    
 }
 
-func KVListContains(list *[][]byte, key []byte) uint8 {
+func KVListContains(list *[][]byte, key []byte) ([]byte, uint8) {
 	if len(*list) % 2 != 0 {
     return nil, 0
 
