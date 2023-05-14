@@ -37,6 +37,21 @@ func KVListContains(list *[][]byte, key []byte) ([]byte, uint8) {
     return nil, 0
 }
 
+
+func KVListContainsCI(list *[][]byte, key []byte) ([]byte, uint8) {
+	if len(*list) % 2 != 0 {
+    return nil, 0
+
+	}
+	for i := 0; i < len(*list); i += 2 {
+	    if bytes.EqualFold((*list)[i], key) {
+		    return (*list)[i+1], 1
+        }
+    }
+    return nil, 0
+}
+
+
 func RemoveFromSortCaseInsensitive(sorted *[][]byte, toRemove []byte) {
 	left := 0
 	right := len(*sorted) - 1
