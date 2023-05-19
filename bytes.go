@@ -51,6 +51,23 @@ func KVListContainsCI(list *[][]byte, key []byte) ([]byte, uint8) {
     return nil, 0
 }
 
+func ReverseBytesList(sortedBytes [][]byte, appendChars []byte) [][]byte {
+	reversedBytes := make([][]byte, len(sortedBytes))
+
+	for i, bytes := range sortedBytes {
+		reversed := make([]byte, len(bytes))
+		for j := 0; j < len(bytes); j++ {
+			reversed[j] = bytes[len(bytes)-j-1]
+		}
+		if appendChars != nil {
+			reversed = append(reversed, appendChars...)
+		}
+		reversedBytes[i] = reversed
+	}
+
+	return reversedBytes
+}
+
 
 func RemoveFromSortCaseInsensitive(sorted *[][]byte, toRemove []byte) {
 	left := 0
