@@ -77,7 +77,14 @@ func RemoveFromSortCaseInsensitive(sorted *[][]byte, toRemove []byte) {
 
 
 
-
+func ListContainsSuffix(listBytes [][]byte, target []byte) uint8 {
+	for _, b := range listBytes {
+		if bytes.HasSuffix(target, b) {
+			return 1
+		}
+	}
+	return 0
+}
 
 
 
