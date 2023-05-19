@@ -2,6 +2,8 @@ package cxbytes
 
 import "bytes"
 
+
+
 func SplitByNewline(data []byte) [][]byte {
     var lines [][]byte
     start := 0
@@ -92,6 +94,13 @@ func RemoveFromSortCaseInsensitive(sorted *[][]byte, toRemove []byte) {
 	}
 }
 
+func SortedListContainsPrefix(sortedBytes [][]byte, target []byte) bool {
+	index := sort.Search(len(sortedBytes), func(i int) bool {
+		return bytes.HasPrefix(target, sortedBytes[i])
+	})
+
+	return index < len(sortedBytes) && bytes.HasPrefix(target, sortedBytes[index])
+}
 
 
 func ListContainsSuffix(listBytes [][]byte, target []byte) uint8 {
