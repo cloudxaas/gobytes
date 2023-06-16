@@ -17,11 +17,10 @@ func Incr(data []byte) {
 
 func AppendKV(list *[][]byte, new [][]byte) {
 	for i := 0; i < len(new); i += 2 {
-		newKey := new[i]
-		newValue := new[i+1]
-		*list = append(*list, newKey, newValue)
+		*list = append(*list, new[i], new[i+1])
 	}
 }
+
 
 func AppendSortedKV(sorted *[][]byte, new [][]byte) {
         for i := 0; i < len(new); i += 2 {
