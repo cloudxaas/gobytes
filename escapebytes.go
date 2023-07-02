@@ -2,17 +2,21 @@ package cxbytes
 
 import "bytes"
 
-func Incr(data []byte) {
-        carry := true
-        for i := len(data) - 1; i >= 0 && carry; i-- {
-                data[i]++
-                carry = data[i] == 0
-        }
-        if carry {
-                data = append(data, 0)
-                copy(data[1:], data)
-                data[0] = 1
-        }
+func Incr(data *[]byte) {
+    if *data == nil {
+        *data = []byte{1}
+        return
+    }
+    carry := true
+    for i := len(*data) - 1; i >= 0 && carry; i-- {
+        (*data)[i]++
+        carry = (*data)[i] == 0
+    }
+    if carry {
+        *data = append(*data, 0)
+        copy((*data)[1:], *data)
+        (*data)[0] = 1
+    }
 }
 
 func AppendKV(list *[][]byte, new [][]byte) {
