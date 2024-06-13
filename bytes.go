@@ -5,10 +5,17 @@ import (
 	"sort"
 )
 
-
-
 func SplitByNewline(data []byte) [][]byte {
-    var lines [][]byte
+    // First, count the number of lines
+    count := 0
+    for _, b := range data {
+        if b == '\n' {
+            count++
+        }
+    }
+
+    // Allocate the slice with the exact capacity needed
+    lines := make([][]byte, 0, count+1)
     start := 0
     for i, b := range data {
         if b == '\n' {
@@ -21,7 +28,6 @@ func SplitByNewline(data []byte) [][]byte {
     }
     return lines
 }
-
 
 func Reverse(element *[]byte) {
     for i, j := 0, len(*element)-1; i < j; i, j = i+1, j-1 {
