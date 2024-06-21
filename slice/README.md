@@ -60,3 +60,18 @@ func main() {
     fmt.Println(target) // Output: [4 5 6 7]
 }
 ```
+
+### Benchmark
+
+```
+go test -bench=. -benchmem
+goos: linux
+goarch: amd64
+pkg: github.com/cloudxaas/gobytes/slice
+cpu: AMD Ryzen 5 7640HS w/ Radeon 760M Graphics     
+BenchmarkReplaceByteSlice/Target_smaller_than_source-12         	310725693	         3.610 ns/op	       0 B/op	       0 allocs/op
+BenchmarkReplaceByteSlice/Target_larger_than_source-12          	516368451	         2.373 ns/op	       0 B/op	       0 allocs/op
+BenchmarkReplaceByteSlice/Target_equal_to_source-12             	314653464	         3.777 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/cloudxaas/gobytes/slice	5.564s
+```
